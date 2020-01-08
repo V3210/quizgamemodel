@@ -1,0 +1,232 @@
+const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
+const questionContainerElement = document.getElementById('question-container')
+const questionElement = document.getElementById('question')
+const answerButtonsElement = document.getElementById('answer-buttons')
+
+let shuffledQuestions, currentQuestionIndex
+
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++
+  setNextQuestion()
+})
+
+function startGame() {
+  t=10;  
+  startButton.classList.add('hide')
+  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  currentQuestionIndex = 0
+  questionContainerElement.classList.remove('hide')
+  setNextQuestion()
+}
+
+function setNextQuestion() {
+  ele = setInterval("timer()",30000);
+  resetState()
+  showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+  questionElement.innerText = question.question
+  question.answers.forEach(answer => {
+    const button = document.createElement('button')
+    button.innerText = answer.text
+    button.classList.add('btn')
+    if (answer.correct) {
+      button.dataset.correct = answer.correct
+    }
+    button.addEventListener('click', selectAnswer)
+    answerButtonsElement.appendChild(button)
+  })
+}
+
+function resetState() {
+  clearStatusClass(document.body)
+  nextButton.classList.add('hide')
+  while (answerButtonsElement.firstChild) {
+    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+  }
+}
+
+function selectAnswer(e) {
+  const selectedButton = e.target
+  const correct = selectedButton.dataset.correct
+  setStatusClass(document.body, correct)
+  Array.from(answerButtonsElement.children).forEach(button => {
+    setStatusClass(button, button.dataset.correct)
+  })
+  if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    nextButton.classList.remove('hide')
+  } else {
+    startButton.innerText = 'Restart'
+    startButton.classList.remove('hide')
+  }
+}
+
+function setStatusClass(element, correct) {
+  clearStatusClass(element)
+  if (correct) {
+    element.classList.add('correct');
+  } else {
+    element.classList.add('wrong');
+  }
+}
+
+function clearStatusClass(element) {
+  element.classList.remove('correct')
+  element.classList.remove('wrong')
+}
+
+var ele = setInterval(timer,1000);
+var co=0,inc=0;
+function timer() {
+    t=t-1;
+    if(t<10) {
+      time.innerHTML=t;
+    } 
+
+    if(t<1) {
+      t="-"
+      time.innerHTML="Your Time is over!";
+    }
+} 
+
+
+const questions = [
+  {
+    question: 'Q. Which is largest country in the world in terms of area? ',
+    answers: [
+      { text: 'A.  Canada', correct: false, increase: 0 },
+      { text: 'B.  Russia', correct: true, increase: 1 },
+      { text: 'C.  China', correct: false, increase: 0 },
+      { text: 'D.  USA', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Who killed Jarasandh in Mahabharat?',
+    answers: [
+      { text: 'A.  Arjuna', correct: false, increase: 0 },
+      { text: 'B.  Bhim', correct: true, increase: 1 },
+      { text: 'C.  Krishna', correct: false, increase: 0 },
+      { text: 'D.  Yudhisthir', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Who won highest individual medals in Olympic History?',
+    answers: [
+      { text: 'A.  Michael Phelps', correct: true, increase: 1 },
+      { text: 'B.  Ussain Bolt', correct: false, increase: 0 },
+      { text: 'C.  Sam Pitz', correct: false, increase: 0 }
+      { text: 'D.  Caleb Dressel', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Who won the Oscar award for potraing joker in a movie as supporting role?',
+    answers: [
+      { text: 'A.  Heath Ledger', correct: true, increase: 1 },
+      { text: 'B.  Joaquin Phoenix', correct: false, increase: 0 },
+      { text: 'C.  Jared Leto', correct: false, increase: 0 },
+      { text: 'D.  Cesar Romero', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Who planned terror attack near Indian parlament at Delhi?',
+    answers: [
+      { text: 'A.  Abu Bakar Bagdadi', correct: false, increase: 0 },
+      { text: 'B.  Hamid', correct: false, increase: 0 },
+      { text: 'C.  Afzal Guru', correct: true, increase: 1 },
+      { text: 'D.  Ajmal Hussain', correct: false, increase: 0}
+    ]
+  },
+  {
+    question: 'Q. Who invented a machine which can bring earthquake?',
+    answers: [
+      { text: 'A.  Thomas Edison', correct: false, increase: 0 },
+      { text: 'B.  Albert Einstein', correct: false, increase: 0 },
+      { text: 'C.  Graham Bell', correct: false, increase: 0 },
+      { text: 'D.  Nikola Tesla', correct: true, increase: 1 }
+    ]
+  },
+  {
+    question: 'Q. Which day is also known as \'National Customer Day\'?',
+    answers: [
+      { text: 'A.  18 February', correct: false, increase: 0 },
+      { text: 'B.  24 December', correct: true, increase: 1 },
+      { text: 'C.  7 August', correct: false, increase: 0 },
+      { text: 'D.  25 March', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Which of this Captain has won evry ICC trophy in cricket?',
+    answers: [
+      { text: 'A.  Ricky Pointing', correct: false, increase: 0 },
+      { text: 'B.  Sourav Ganguly', correct: false, increase: 0},
+      { text: 'C.  MS Dhoni', correct: true, increase: 1 },
+      { text: 'D.  Michael Clarke', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. According to Indian Mythology, Who is not the immortal man?',
+    answers: [
+      { text: 'A.  Jambuvan', correct: true, increase: 1 },
+      { text: 'B.  Kripacharya', correct: false, increase: 0 },
+      { text: 'C.  Vibhishan', correct: false, increase: 0 },
+      { text: 'D.  Ashwathama', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Which is the most poisonous snake in the world?',
+    answers: [
+      { text: 'A.  Black Mamba', correct: false, increase: 0 },
+      { text: 'B.  Rattle Snack', correct: false, increase: 0 },
+      { text: 'C.  King Kobra', correct: false, increase: 0 },
+      { text: 'D.  Inland Taipan', correct: true, increase: 1 }
+    ]
+  },
+  {
+    question: 'Q. Which part of the human body never sweats?',
+    answers: [
+      { text: 'A.  Knees', correct: false, increase: 0 },
+      { text: 'B.  Palm', correct: false, increase: 0 },
+      { text: 'C.  lips', correct: true, increase: 1 },
+      { text: 'D.  Ears', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. How many words can be formed by characters of \'MATHEMATICS\' Such that first letter is C ,last is S ,two T are always togther and two M are also togeter?  ',
+    answers: [
+      { text: 'A.  5040', correct: false, increase: 0 },
+      { text: 'B.  2520', correct: true, increase: 1},
+      { text: 'C.  1260', correct: false, increase: 0 },
+      { text: 'D.  630', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Which is the largest commercial passenger plane in the world?',
+    answers: [
+      { text: 'A.  HAV Airlander 10', correct: false, increase: 0 },
+      { text: 'B.  Antonov An-124', correct: false, increase: 0 },
+      { text: 'C.  Boeing 747-8', correct: false, increase: 0 },
+      { text: 'D.  Airbus A380-800', correct: true, increase: 1 }
+    ]
+  },
+  {
+    question: 'Q. Which type of insect is responsible for typhoid desease?',
+    answers: [
+      { text: 'A.  Fungies', correct: false, increase: 0 },
+      { text: 'B.  Becteria', correct: true, increase: 1 },
+      { text: 'C.  Protozoa', correct: false, increase: 0 },
+      { text: 'D.  Virus', correct: false, increase: 0 }
+    ]
+  },
+  {
+    question: 'Q. Which country has the highest currency?',
+    answers: [
+      { text: 'A.  Kuwait', correct: true, increase: 1 },
+      { text: 'B.  Jordan', correct: false, increase: 0 },
+      { text: 'C.  Bahrain', correct: false, increase: 0 },
+      { text: 'D.  Oman', correct: false, increase: 0 }
+    ]
+  },
+]
